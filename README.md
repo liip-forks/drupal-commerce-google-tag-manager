@@ -1,5 +1,7 @@
 # Commerce Google Tag Manager Enhanced Ecommerce
 
+@todo Update readme.
+
 Provides Commerce integration for Enhanced Ecommerce via Google Tag Manager.
 
 |       Test-CI        |        Style-CI         |        Downloads        |         Releases         |
