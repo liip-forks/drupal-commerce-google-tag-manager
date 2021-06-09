@@ -23,13 +23,12 @@ use Drupal\commerce\Context;
  */
 class EventTrackerService {
 
-  const EVENT_PRODUCT_IMPRESSIONS = 'productImpressions';
-  const EVENT_PRODUCT_DETAIL_VIEWS = 'productDetailViews';
-  const EVENT_PRODUCT_CLICK = 'productClick';
-  const EVENT_ADD_CART = 'addToCart';
-  const EVENT_REMOVE_CART = 'removeFromCart';
-  const EVENT_CHECKOUT = 'checkout';
-  const EVENT_CHECKOUT_OPTION = 'checkoutOption';
+  const EVENT_PRODUCT_IMPRESSIONS = 'view_item_list';
+  const EVENT_PRODUCT_DETAIL_VIEWS = 'view_item';
+  const EVENT_PRODUCT_CLICK = 'select_item';
+  const EVENT_ADD_CART = 'add_to_cart';
+  const EVENT_REMOVE_CART = 'remove_from_cart';
+  const EVENT_CHECKOUT = 'begin_checkout';
   const EVENT_PURCHASE = 'purchase';
 
   /**
@@ -105,13 +104,13 @@ class EventTrackerService {
     $products_data = array_map(function ($product_variation) use ($list) {
       return array_merge(
         $this->buildProductFromProductVariation($product_variation)->toArray(),
-        ['list' => $list]);
+        ['item_list_name' => $list]);
     }, $product_variations);
 
     $data = [
       'event' => self::EVENT_PRODUCT_IMPRESSIONS,
       'ecommerce' => [
-        'impressions' => $products_data,
+        'items' => $products_data,
       ],
     ];
 
@@ -130,10 +129,10 @@ class EventTrackerService {
     $data = [
       'event' => self::EVENT_PRODUCT_DETAIL_VIEWS,
       'ecommerce' => [
-        'detail' => [
-          'actionField' => ['list' => $list],
-          'products' => $this->buildProductsFromProductVariations($product_variations),
-        ],
+        'items' => array_merge(
+          $this->buildProductsFromProductVariations($product_variations),
+          ['item_list_name' => $list]
+        ),
       ],
     ];
 
@@ -152,10 +151,10 @@ class EventTrackerService {
     $data = [
       'event' => self::EVENT_PRODUCT_CLICK,
       'ecommerce' => [
-        'click' => [
-          'actionField' => ['list' => $list],
-          'products' => $this->buildProductsFromProductVariations($product_variations),
-        ],
+        'items' => array_merge(
+          $this->buildProductsFromProductVariations($product_variations),
+          ['item_list_name' => $list]
+        ),
       ],
     ];
 
@@ -176,11 +175,8 @@ class EventTrackerService {
     $data = [
       'event' => self::EVENT_ADD_CART,
       'ecommerce' => [
-        'currencyCode' => $order_item->getTotalPrice()->getCurrencyCode(),
-        'add' => [
-          'products' => [
-            array_merge($product->toArray(), ['quantity' => $quantity]),
-          ],
+        'items' => [
+          array_merge($product->toArray(), ['quantity' => $quantity]),
         ],
       ],
     ];
@@ -202,10 +198,8 @@ class EventTrackerService {
     $data = [
       'event' => self::EVENT_REMOVE_CART,
       'ecommerce' => [
-        'remove' => [
-          'products' => [
-            array_merge($product->toArray(), ['quantity' => $quantity]),
-          ],
+        'items' => [
+          array_merge($product->toArray(), ['quantity' => $quantity]),
         ],
       ],
     ];
@@ -225,46 +219,15 @@ class EventTrackerService {
     $data = [
       'event' => self::EVENT_CHECKOUT,
       'ecommerce' => [
-        'checkout' => [
-          'actionField' => [
-            'step' => $step_index,
-          ],
-          'products' => $this->buildProductsFromOrderItems($order->getItems()),
+        'items' => [
+          $this->buildProductsFromOrderItems($order->getItems()),
         ],
       ],
     ];
 
     $this->eventStorage->addEvent($data);
 
-    // Throw an event to add possible checkout step options by event listeners.
-    $event = new TrackCheckoutStepEvent($step_index, $order);
-    $this->eventDispatcher->dispatch(EnhancedEcommerceEvents::TRACK_CHECKOUT_STEP, $event);
-  }
-
-  /**
-   * Track a checkout option.
-   *
-   * This allows to track additional metadata for any checkout step.
-   *
-   * @param string $step_index
-   *   The index of the checkout step (1-based).
-   * @param string $checkout_option
-   *   The option to track with the given step.
-   */
-  public function checkoutOption($step_index, $checkout_option) {
-    $data = [
-      'event' => self::EVENT_CHECKOUT_OPTION,
-      'ecommerce' => [
-        'checkout_option' => [
-          'actionField' => [
-            'step' => $step_index,
-            'option' => $checkout_option,
-          ],
-        ],
-      ],
-    ];
-
-    $this->eventStorage->addEvent($data);
+    // Could use an action to track the step?
   }
 
   /**
@@ -278,16 +241,15 @@ class EventTrackerService {
       'event' => self::EVENT_PURCHASE,
       'ecommerce' => [
         'purchase' => [
-          'actionField' => [
-            'id' => $order->getOrderNumber(),
-            'affiliation' => $order->getStore()->getName(),
-            // The revenu should be the total value (incl. tax and shipping).
-            'revenue' => self::formatPrice((float) $order->getTotalPrice()->getNumber()),
-            'shipping' => self::formatPrice($this->calculateShipping($order)),
-            'tax' => $this->formatPrice($this->calculateTax($order)),
-            'coupon' => $this->getCouponCode($order),
-          ],
-          'products' => $this->buildProductsFromOrderItems($order->getItems()),
+          'transaction_id' => $order->getOrderNumber(),
+          'affiliation' => $order->getStore()->getName(),
+          // The value should be the total value (incl. tax and shipping).
+          'value' => self::formatPrice((float) $order->getTotalPrice()->getNumber()),
+          'tax' => $this->formatPrice($this->calculateTax($order)),
+          'shipping' => self::formatPrice($this->calculateShipping($order)),
+          'currency' => $order->getTotalPrice()->getCurrencyCode(),
+          'coupon' => $this->getCouponCode($order),
+          'items' => $this->buildProductsFromOrderItems($order->getItems()),
         ],
       ],
     ];

@@ -73,9 +73,11 @@ class Product {
     $data = [];
 
     foreach ($this as $property => $value) {
+      $property = ($property != 'price') ? 'item_' . $property : $property;
+
       if (is_array($value)) {
         foreach ($value as $i => $v) {
-          $data[rtrim($property, 's') . ($i + 1)] = $v;
+          $data[rtrim($property, 's') . '_' . ($i + 1)] = $v;
         }
       }
       elseif ($value !== NULL) {
