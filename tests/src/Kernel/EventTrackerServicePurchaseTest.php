@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\commerce_google_tag_manager\Kernel;
 
 use Drupal\commerce_order\Adjustment;
-use Drupal\commerce_tax\Entity\TaxType;
-use Drupal\Tests\commerce_google_tag_manager\Traits\InvokeMethodTrait;
+use Drupal\commerce_order\Entity\Order;
 use Drupal\commerce_price\Price;
 use Drupal\commerce_product\Entity\Product as CommerceProduct;
 use Drupal\commerce_product\Entity\ProductVariation;
+use Drupal\commerce_tax\Entity\TaxType;
 use Drupal\profile\Entity\Profile;
-use Drupal\commerce_order\Entity\Order;
+use Drupal\Tests\commerce_google_tag_manager\Traits\InvokeMethodTrait;
 
 /**
  * @coversDefaultClass \Drupal\commerce_google_tag_manager\EventTrackerService

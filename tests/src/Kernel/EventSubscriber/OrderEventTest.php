@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\commerce_google_tag_manager\Kernel\EventSubscriber;
 
-use Drupal\Tests\commerce_google_tag_manager\Kernel\CommerceKernelTestBase;
 use Drupal\commerce_google_tag_manager\EventSubscriber\CommerceEventsSubscriber;
-use Drupal\commerce_price\Price;
-use Drupal\profile\Entity\Profile;
 use Drupal\commerce_order\Entity\Order;
+use Drupal\commerce_price\Price;
 use Drupal\commerce_product\Entity\Product;
 use Drupal\commerce_product\Entity\ProductVariation;
+use Drupal\profile\Entity\Profile;
 use Drupal\state_machine\Event\WorkflowTransitionEvent;
+use Drupal\Tests\commerce_google_tag_manager\Kernel\CommerceKernelTestBase;
 
 /**
  * @coversDefaultClass \Drupal\commerce_google_tag_manager\EventSubscriber\CommerceEventsSubscriber

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\commerce_google_tag_manager\Event;
 
 use Symfony\Component\EventDispatcher\Event;

@@ -1,20 +1,21 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\commerce_google_tag_manager;
 
+use Drupal\commerce\Context;
 use Drupal\commerce_google_tag_manager\Event\AlterProductEvent;
 use Drupal\commerce_google_tag_manager\Event\AlterProductPurchasedEntityEvent;
 use Drupal\commerce_google_tag_manager\Event\EnhancedEcommerceEvents;
-use Drupal\commerce_google_tag_manager\Event\TrackCheckoutStepEvent;
 use Drupal\commerce_order\Adjustment;
 use Drupal\commerce_order\Entity\OrderInterface;
 use Drupal\commerce_order\Entity\OrderItemInterface;
+use Drupal\commerce_order\PriceCalculatorInterface;
 use Drupal\commerce_product\Entity\ProductVariationInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Drupal\commerce_store\CurrentStoreInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\commerce_order\PriceCalculatorInterface;
-use Drupal\commerce\Context;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Track different events from Google's Enhanced Ecommerce.

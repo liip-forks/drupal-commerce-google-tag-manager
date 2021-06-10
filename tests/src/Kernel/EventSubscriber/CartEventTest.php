@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\commerce_google_tag_manager\Kernel\EventSubscriber;
 
-use Drupal\Tests\commerce_google_tag_manager\Kernel\CommerceKernelTestBase;
+use Drupal\commerce_cart\Event\CartEntityAddEvent;
+use Drupal\commerce_cart\Event\CartOrderItemRemoveEvent;
 use Drupal\commerce_google_tag_manager\EventSubscriber\CommerceEventsSubscriber;
 use Drupal\commerce_price\Price;
 use Drupal\commerce_product\Entity\ProductVariation;
-use Drupal\commerce_cart\Event\CartEntityAddEvent;
-use Drupal\commerce_cart\Event\CartOrderItemRemoveEvent;
 use Drupal\Tests\commerce_cart\Traits\CartManagerTestTrait;
+use Drupal\Tests\commerce_google_tag_manager\Kernel\CommerceKernelTestBase;
 
 /**
  * @coversDefaultClass \Drupal\commerce_google_tag_manager\EventSubscriber\CommerceEventsSubscriber

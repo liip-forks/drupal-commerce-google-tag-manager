@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\commerce_google_tag_manager\Unit;
 
-use Drupal\Tests\UnitTestCase;
 use Drupal\commerce_google_tag_manager\Event\EnhancedEcommerceEvents;
+use Drupal\Tests\UnitTestCase;
 
 /**
  * @coversDefaultClass \Drupal\commerce_google_tag_manager\Event\EnhancedEcommerceEvents

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\commerce_google_tag_manager\Functional;
 
-use Drupal\Tests\commerce\Functional\CommerceBrowserTestBase;
 use Drupal\commerce_price\Price;
 use Drupal\commerce_product\Entity\Product;
 use Drupal\commerce_product\Entity\ProductVariation;
+use Drupal\Tests\commerce\Functional\CommerceBrowserTestBase;
 
 /**
  * @coversDefaultClass \Drupal\commerce_google_tag_manager\EventSubscriber\CommerceEventsSubscriber

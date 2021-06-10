@@ -1,22 +1,24 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\commerce_google_tag_manager\Unit;
 
+use Drupal\commerce_google_tag_manager\EventStorageService;
+use Drupal\commerce_google_tag_manager\EventTrackerService;
 use Drupal\commerce_order\Entity\OrderInterface;
 use Drupal\commerce_order\Entity\OrderItemInterface;
+use Drupal\commerce_order\PriceCalculatorInterface;
+use Drupal\commerce_order\PriceCalculatorResult;
 use Drupal\commerce_price\Price;
 use Drupal\commerce_product\Entity\ProductInterface;
 use Drupal\commerce_product\Entity\ProductVariationInterface;
-use Drupal\commerce_store\Entity\StoreInterface;
-use Drupal\commerce_order\PriceCalculatorResult;
-use Drupal\Tests\UnitTestCase;
-use Drupal\commerce_google_tag_manager\EventTrackerService;
-use Drupal\commerce_google_tag_manager\EventStorageService;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Drupal\commerce_store\CurrentStoreInterface;
+use Drupal\commerce_store\Entity\StoreInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\commerce_order\PriceCalculatorInterface;
+use Drupal\Tests\UnitTestCase;
 use Prophecy\Argument;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Tests for the EventTracker service.

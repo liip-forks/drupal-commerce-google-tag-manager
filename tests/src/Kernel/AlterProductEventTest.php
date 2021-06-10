@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\commerce_google_tag_manager\Kernel;
 
 use Drupal\commerce_google_tag_manager\Event\AlterProductEvent;
-use Drupal\commerce_product\Entity\ProductVariationInterface;
-use Drupal\commerce_product\Entity\ProductVariation;
 use Drupal\commerce_google_tag_manager\Product;
+use Drupal\commerce_product\Entity\ProductVariation;
+use Drupal\commerce_product\Entity\ProductVariationInterface;
 
 /**
  * @coversDefaultClass \Drupal\commerce_google_tag_manager\Event\AlterProductEvent

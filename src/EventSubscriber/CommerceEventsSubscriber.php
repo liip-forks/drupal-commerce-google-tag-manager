@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\commerce_google_tag_manager\EventSubscriber;
 
 use Drupal\commerce_cart\Event\CartEntityAddEvent;
@@ -9,8 +11,8 @@ use Drupal\commerce_google_tag_manager\EventTrackerService;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\state_machine\Event\WorkflowTransitionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Event handler for commerce related events.

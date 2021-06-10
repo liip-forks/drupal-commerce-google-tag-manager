@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\commerce_google_tag_manager\Controller;
 
 use Drupal\commerce_google_tag_manager\EventStorageService;

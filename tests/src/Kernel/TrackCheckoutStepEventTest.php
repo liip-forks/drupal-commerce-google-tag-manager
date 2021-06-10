@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\commerce_google_tag_manager\Kernel;
 
 use Drupal\commerce_google_tag_manager\Event\TrackCheckoutStepEvent;
-use Drupal\commerce_price\Price;
-use Drupal\profile\Entity\Profile;
 use Drupal\commerce_order\Entity\Order;
 use Drupal\commerce_order\Entity\OrderInterface;
+use Drupal\commerce_price\Price;
 use Drupal\commerce_product\Entity\Product;
 use Drupal\commerce_product\Entity\ProductVariation;
+use Drupal\profile\Entity\Profile;
 
 /**
  * @coversDefaultClass \Drupal\commerce_google_tag_manager\Event\TrackCheckoutStepEvent

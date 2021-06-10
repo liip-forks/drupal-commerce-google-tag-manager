@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\commerce_google_tag_manager\Unit;
 
-use Drupal\Tests\UnitTestCase;
-use Drupal\commerce_google_tag_manager\EventStorageService;
-use Drupal\Tests\commerce_google_tag_manager\Traits\InvokeMethodTrait;
-use Drupal\commerce_google_tag_manager\EventTrackerService;
-use Drupal\Core\TempStore\PrivateTempStoreFactory;
-use Drupal\Core\TempStore\PrivateTempStore;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Drupal\commerce_google_tag_manager\Event\EnhancedEcommerceEvents;
 use Drupal\commerce_google_tag_manager\Event\AlterEventDataEvent;
+use Drupal\commerce_google_tag_manager\Event\EnhancedEcommerceEvents;
+use Drupal\commerce_google_tag_manager\EventStorageService;
+use Drupal\commerce_google_tag_manager\EventTrackerService;
+use Drupal\Core\TempStore\PrivateTempStore;
+use Drupal\Core\TempStore\PrivateTempStoreFactory;
+use Drupal\Tests\commerce_google_tag_manager\Traits\InvokeMethodTrait;
+use Drupal\Tests\UnitTestCase;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @coversDefaultClass \Drupal\commerce_google_tag_manager\EventStorageService
