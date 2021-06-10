@@ -83,7 +83,11 @@ class CommerceEventsSubscriber implements EventSubscriberInterface {
       $default_variation = $product->getDefaultVariation();
 
       if ($default_variation) {
-        $this->eventTracker->productDetailViews([$default_variation]);
+        // This is event has been disabled as it causes a session to be opened
+        // when the user is browsing. This increases load on origin
+        // significantly.
+        // @todo Add config to allow this to be optionally enabled/disabled.
+        // $this->eventTracker->productDetailViews([$default_variation]);
       }
     }
   }
