@@ -84,14 +84,18 @@ class Product {
       if (is_array($value)) {
         foreach ($value as $i => $v) {
           $singularProperty = rtrim($property, 's');
-          // For category the zeroth entry has no suffix.
           if ($property === 'category') {
-            $index = $i === 0 ? $singularProperty : $singularProperty . '_' . $i;
+            // Skip category if the value is an empty string.
+            if (empty($v)) {
+              continue;
+            }
+            // For category the zeroth entry has no suffix.
+            $propertyIdentifier = $i === 0 ? $singularProperty : $singularProperty . '_' . $i;
           }
           else {
-            $index = $singularProperty . '_' . ($i + 1);
+            $propertyIdentifier = $singularProperty . '_' . ($i + 1);
           }
-          $data[$index] = $v;
+          $data[$propertyIdentifier] = $v;
         }
       }
       elseif ($value !== NULL) {
@@ -212,7 +216,7 @@ class Product {
    * Add a category.
    *
    * @param string $category
-   *   The category
+   *   The category.
    *
    * @return $this
    */
