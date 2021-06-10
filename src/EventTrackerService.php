@@ -246,7 +246,7 @@ class EventTrackerService {
           'affiliation' => $order->getStore()->getName(),
           // The value should be the total value (incl. tax and shipping).
           'value' => self::formatPrice((float) $order->getTotalPrice()->getNumber()),
-          'tax' => $this->formatPrice($this->calculateTax($order)),
+          'tax' => self::formatPrice($this->calculateTax($order)),
           'shipping' => self::formatPrice($this->calculateShipping($order)),
           'currency' => $order->getTotalPrice()->getCurrencyCode(),
           'coupon' => $this->getCouponCode($order),
