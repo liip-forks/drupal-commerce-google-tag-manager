@@ -14,56 +14,56 @@ class Product {
    *
    * @var string
    */
-  private $name;
+  private string $name;
 
   /**
    * Unique identifier.
    *
    * @var string
    */
-  private $id;
+  private string $id;
 
   /**
    * The price.
    *
    * @var string
    */
-  private $price;
+  private string $price;
 
   /**
    * The brand.
    *
    * @var string
    */
-  private $brand;
+  private string $brand;
 
   /**
-   * The category.
+   * Categories.
    *
-   * @var string
+   * @var string[]
    */
-  private $category;
+  private array $categories = [];
 
   /**
    * The product variation.
    *
    * @var string
    */
-  private $variant;
+  private string $variant;
 
   /**
    * Collection of dimensions for GA.
    *
    * @var array
    */
-  private $dimensions = [];
+  private array $dimensions = [];
 
   /**
    * Collection of metrics for GA.
    *
    * @var array
    */
-  private $metrics = [];
+  private array $metrics = [];
 
   /**
    * Build the product data as array in the requested format by Google.
@@ -75,11 +75,23 @@ class Product {
     $data = [];
 
     foreach ($this as $property => $value) {
-      $property = ($property != 'price') ? 'item_' . $property : $property;
+      // Special cases for plural to singular conversion.
+      $property = $property === 'categories' ? 'category' : $property;
+
+      // Special case of price without item prefix.
+      $property = ($property !== 'price') ? 'item_' . $property : $property;
 
       if (is_array($value)) {
         foreach ($value as $i => $v) {
-          $data[rtrim($property, 's') . '_' . ($i + 1)] = $v;
+          $singularProperty = rtrim($property, 's');
+          // For category the zeroth entry has no suffix.
+          if ($property === 'category') {
+            $index = $i === 0 ? $singularProperty : $singularProperty . '_' . $i;
+          }
+          else {
+            $index = $singularProperty . '_' . ($i + 1);
+          }
+          $data[$index] = $v;
         }
       }
       elseif ($value !== NULL) {
@@ -96,7 +108,7 @@ class Product {
    * @return string
    *   The name.
    */
-  public function getName() {
+  public function getName(): string {
     return $this->name;
   }
 
@@ -109,7 +121,7 @@ class Product {
    * @return \Drupal\commerce_google_tag_manager\Product
    *   The Product object.
    */
-  public function setName($name) {
+  public function setName($name): self {
     $this->name = $name;
     return $this;
   }
@@ -120,7 +132,7 @@ class Product {
    * @return string
    *   The unique identifier.
    */
-  public function getId() {
+  public function getId(): string {
     return $this->id;
   }
 
@@ -133,7 +145,7 @@ class Product {
    * @return \Drupal\commerce_google_tag_manager\Product
    *   The Product object.
    */
-  public function setId($id) {
+  public function setId(string $id): self {
     $this->id = $id;
     return $this;
   }
@@ -144,7 +156,7 @@ class Product {
    * @return string
    *   The price.
    */
-  public function getPrice() {
+  public function getPrice(): string {
     return $this->price;
   }
 
@@ -157,7 +169,7 @@ class Product {
    * @return \Drupal\commerce_google_tag_manager\Product
    *   The Product object.
    */
-  public function setPrice($price) {
+  public function setPrice($price): self {
     $this->price = $price;
     return $this;
   }
@@ -168,7 +180,7 @@ class Product {
    * @return string
    *   The brand.
    */
-  public function getBrand() {
+  public function getBrand(): string {
     return $this->brand;
   }
 
@@ -181,32 +193,31 @@ class Product {
    * @return \Drupal\commerce_google_tag_manager\Product
    *   The Product object.
    */
-  public function setBrand($brand) {
+  public function setBrand(string $brand): self {
     $this->brand = $brand;
     return $this;
   }
 
   /**
-   * Get the category.
+   * Get the categories.
    *
-   * @return string
-   *   The category.
+   * @return string[]
+   *   The categories.
    */
-  public function getCategory() {
-    return $this->category;
+  public function getCategories(): array {
+    return $this->categories;
   }
 
   /**
-   * Set the category.
+   * Add a category.
    *
    * @param string $category
-   *   The category.
+   *   The category
    *
-   * @return \Drupal\commerce_google_tag_manager\Product
-   *   The Product object.
+   * @return $this
    */
-  public function setCategory($category) {
-    $this->category = $category;
+  public function addCategory(string $category): self {
+    $this->categories[] = $category;
     return $this;
   }
 
@@ -216,7 +227,7 @@ class Product {
    * @return string
    *   The variation.
    */
-  public function getVariant() {
+  public function getVariant(): string {
     return $this->variant;
   }
 
@@ -229,7 +240,7 @@ class Product {
    * @return \Drupal\commerce_google_tag_manager\Product
    *   The Product object.
    */
-  public function setVariant($variant) {
+  public function setVariant(string $variant): self {
     $this->variant = $variant;
     return $this;
   }
@@ -240,7 +251,7 @@ class Product {
    * @return string[]
    *   Collection of dimensions.
    */
-  public function getDimensions() {
+  public function getDimensions(): array {
     return $this->dimensions;
   }
 
@@ -253,7 +264,7 @@ class Product {
    * @return \Drupal\commerce_google_tag_manager\Product
    *   The Product object.
    */
-  public function setDimensions(array $dimensions) {
+  public function setDimensions(array $dimensions): self {
     $this->dimensions = $dimensions;
     return $this;
   }
@@ -264,7 +275,7 @@ class Product {
    * @return string[]
    *   Collection of metrics.
    */
-  public function getMetrics() {
+  public function getMetrics(): array {
     return $this->metrics;
   }
 
@@ -277,7 +288,7 @@ class Product {
    * @return \Drupal\commerce_google_tag_manager\Product
    *   The Product object.
    */
-  public function setMetrics(array $metrics) {
+  public function setMetrics(array $metrics): self {
     $this->metrics = $metrics;
     return $this;
   }
@@ -291,7 +302,7 @@ class Product {
    * @return \Drupal\commerce_google_tag_manager\Product
    *   The Product object.
    */
-  public function addDimension($dimension) {
+  public function addDimension(string $dimension): self {
     $this->dimensions[] = $dimension;
     return $this;
   }
@@ -305,7 +316,7 @@ class Product {
    * @return \Drupal\commerce_google_tag_manager\Product
    *   The Product object.
    */
-  public function addMetric($metric) {
+  public function addMetric(string $metric): self {
     $this->metrics[] = $metric;
     return $this;
   }
