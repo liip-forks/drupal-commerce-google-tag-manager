@@ -25,8 +25,7 @@ final class EnhancedEcommerceEvents {
    * Allows to alter the GTM Product field mapping.
    *
    * Allows alteration of field mapping from Commerce product to a GTM Product.
-   * Use this event to alter data Product in case there is no product variation
-   * before it gets pushed to data layer.
+   * The purchased entity may not be a product variation on this event.
    *
    * @Event
    *

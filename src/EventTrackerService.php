@@ -279,10 +279,10 @@ class EventTrackerService {
         ->setName($order_item->getTitle())
         ->setId($order_item->getPurchasedEntityId())
         ->setPrice(self::formatPrice((float) $order_item->getTotalPrice()->getNumber()));
-
-      $event = new AlterProductPurchasedEntityEvent($product, $order_item, $purchased_entity);
-      $this->eventDispatcher->dispatch(EnhancedEcommerceEvents::ALTER_PRODUCT_PURCHASED_ENTITY, $event);
     }
+
+    $event = new AlterProductPurchasedEntityEvent($product, $order_item, $purchased_entity);
+    $this->eventDispatcher->dispatch(EnhancedEcommerceEvents::ALTER_PRODUCT_PURCHASED_ENTITY, $event);
 
     return $product;
   }
