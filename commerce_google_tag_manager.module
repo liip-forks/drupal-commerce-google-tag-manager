@@ -2,14 +2,10 @@
 
 /**
  * @file
+ * Provides hook implementations for google_commerce_tag_manager.
  */
 
 declare(strict_types = 1);
-
-/**
- * @file
- * Module file for the commerce_google_tag_manager module.
- */
 
 use Drupal\Core\Cache\CacheableMetadata;
 

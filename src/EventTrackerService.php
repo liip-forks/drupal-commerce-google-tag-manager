@@ -374,7 +374,7 @@ class EventTrackerService {
     $number = bcdiv((string) $price, '1', 2);
 
     // Format the number as requested by Google's Enhanced Ecommerce.
-    return number_format((float)$number, 2, '.', '');
+    return number_format((float) $number, 2, '.', '');
   }
 
   /**
