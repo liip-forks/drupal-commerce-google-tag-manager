@@ -245,9 +245,9 @@ class EventTrackerService {
           'transaction_id' => $order->getOrderNumber(),
           'affiliation' => $order->getStore()->getName(),
           // The value should be the total value (incl. tax and shipping).
-          'value' => self::formatPrice((float) $order->getTotalPrice()->getNumber()),
-          'tax' => self::formatPrice($this->calculateTax($order)),
-          'shipping' => self::formatPrice($this->calculateShipping($order)),
+          'value' => self::formatPrice($order->getTotalPrice()->getNumber()),
+          'tax' => self::formatPrice((string) $this->calculateTax($order)),
+          'shipping' => self::formatPrice((string) $this->calculateShipping($order)),
           'currency' => $order->getTotalPrice()->getCurrencyCode(),
           'coupon' => $this->getCouponCode($order),
           'items' => $this->buildProductsFromOrderItems($order->getItems()),
@@ -277,8 +277,8 @@ class EventTrackerService {
       // The purchased entity is not a product variation.
       $product = (new Product())
         ->setName($order_item->getTitle())
-        ->setId($order_item->getPurchasedEntityId())
-        ->setPrice(self::formatPrice((float) $order_item->getTotalPrice()->getNumber()));
+        ->setId((string) $order_item->getPurchasedEntityId())
+        ->setPrice(self::formatPrice($order_item->getTotalPrice()->getNumber()));
     }
 
     $event = new AlterProductPurchasedEntityEvent($product, $order_item, $purchased_entity);
@@ -359,14 +359,19 @@ class EventTrackerService {
    * The given price will be truncate to contain only 2 decimals.
    * No round up are operate, so 11,999 will become 11,99.
    *
-   * @param float $price
+   * @param mixed $price
    *   The price to format.
    *
    * @return string
    *   The formatted price.
    */
-  public static function formatPrice(float $price) {
-    if ($price === 0.0) {
+  public static function formatPrice($price): string {
+
+    if (!is_numeric($price)) {
+      throw new \InvalidArgumentException("The string must be a numeric.");
+    }
+
+    if ($price == 0.0) {
       return '0';
     }
 
