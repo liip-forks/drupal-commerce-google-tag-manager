@@ -84,7 +84,7 @@ class Product {
       if (is_array($value)) {
         foreach ($value as $i => $v) {
           $singularProperty = rtrim($property, 's');
-          if ($property === 'category') {
+          if ($property === 'item_category') {
             // Skip category if the value is an empty string.
             if (empty($v)) {
               continue;
