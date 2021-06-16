@@ -14,62 +14,62 @@ class Product {
    *
    * @var string
    */
-  private string $name;
+  private $name;
 
   /**
    * Unique identifier.
    *
    * @var string
    */
-  private string $id;
+  private $id;
 
   /**
    * The price.
    *
    * @var string
    */
-  private string $price;
+  private $price;
 
   /**
    * The brand.
    *
    * @var string
    */
-  private string $brand;
+  private $brand;
 
   /**
    * Categories.
    *
    * @var string[]
    */
-  private array $categories = [];
+  private $categories = [];
 
   /**
    * The product variation.
    *
    * @var string
    */
-  private string $variant;
+  private $variant;
 
   /**
    * Collection of dimensions for GA.
    *
    * @var array
    */
-  private array $dimensions = [];
+  private $dimensions = [];
 
   /**
    * Collection of metrics for GA.
    *
    * @var array
    */
-  private array $metrics = [];
+  private $metrics = [];
 
   /**
    * Build the product data as array in the requested format by Google.
    *
    * @return array
-   *   Formated Product data as requested by Google.
+   *   Formatted Product data as requested by Google.
    */
   public function toArray() {
     $data = [];
@@ -79,7 +79,7 @@ class Product {
       $property = $property === 'categories' ? 'category' : $property;
 
       // Special case of price without item prefix.
-      $property = ($property !== 'price') ? 'item_' . $property : $property;
+      $property = $property !== 'price' ? 'item_' . $property : $property;
 
       if (is_array($value)) {
         foreach ($value as $i => $v) {
