@@ -302,7 +302,7 @@ class EventTrackerService {
     $product = new Product();
     $product
       ->setName($product_variation->getProduct()->getTitle())
-      ->setId($product_variation->getProduct()->id())
+      ->setId((string) $product_variation->getProduct()->id())
       ->setVariant($product_variation->getTitle());
 
     // Get price based on resolver(s).
