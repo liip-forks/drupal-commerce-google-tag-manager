@@ -1,5 +1,10 @@
 {
   "name": "drupal/commerce_google_tag_manager",
+  "config": {
+      "platform": {
+          "php": "7.3.0"
+      }
+  },
   "description": "Provides Commerce integration for Enhanced Ecommerce events via Google Tag Manager",
   "type": "drupal-module",
   "homepage": "https://www.drupal.org/project/commerce_google_tag_manager",
