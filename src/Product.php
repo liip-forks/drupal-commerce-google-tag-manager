@@ -31,6 +31,13 @@ class Product {
   private $price;
 
   /**
+   * The currency.
+   *
+   * @var string
+   */
+  private $currency;
+
+  /**
    * The brand.
    *
    * @var string
@@ -175,6 +182,20 @@ class Product {
    */
   public function setPrice($price): self {
     $this->price = $price;
+    return $this;
+  }
+
+  /**
+   * Set the currency.
+   *
+   * @param string $currency
+   *   The currency.
+   *
+   * @return \Drupal\commerce_google_tag_manager\Product
+   *   The Product object.
+   */
+  public function setCurrency(string $currency): self {
+    $this->currency = $currency;
     return $this;
   }
 

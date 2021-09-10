@@ -278,7 +278,8 @@ class EventTrackerService {
       $product = (new Product())
         ->setName($order_item->getTitle())
         ->setId((string) $order_item->getPurchasedEntityId())
-        ->setPrice(self::formatPrice($order_item->getTotalPrice()->getNumber()));
+        ->setPrice(self::formatPrice($order_item->getTotalPrice()->getNumber()))
+        ->setCurrency($order_item->getUnitPrice()->getCurrencyCode());
     }
 
     $event = new AlterProductPurchasedEntityEvent($product, $order_item, $purchased_entity);
@@ -309,7 +310,9 @@ class EventTrackerService {
     /** @var \Drupal\commerce_price\Price $calculated_price */
     $calculated_price = $this->priceCalculator->calculate($product_variation, 1, $context)->getCalculatedPrice();
     if ($calculated_price) {
-      $product->setPrice(self::formatPrice((float) $calculated_price->getNumber()));
+      $product
+        ->setPrice(self::formatPrice((float) $calculated_price->getNumber()))
+        ->setCurrency($calculated_price->getCurrencyCode());
     }
 
     $event = new AlterProductEvent($product, $product_variation);
