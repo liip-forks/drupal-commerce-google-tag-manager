@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Drupal\Tests\commerce_google_tag_manager\Kernel;
 
-use Drupal\commerce_google_tag_manager\Event\TrackCheckoutStepEvent;
+use Drupal\commerce_google_tag_manager\Event\AlterCheckoutStepEventData;
 use Drupal\commerce_order\Entity\Order;
 use Drupal\commerce_order\Entity\OrderInterface;
 use Drupal\commerce_price\Price;
@@ -13,7 +13,7 @@ use Drupal\commerce_product\Entity\ProductVariation;
 use Drupal\profile\Entity\Profile;
 
 /**
- * @coversDefaultClass \Drupal\commerce_google_tag_manager\Event\TrackCheckoutStepEvent
+ * @coversDefaultClass \Drupal\commerce_google_tag_manager\Event\AlterCheckoutStepEventData
  *
  * @group commerce
  * @group commerce_google_tag_manager
@@ -91,7 +91,7 @@ class TrackCheckoutStepEventTest extends CommerceKernelTestBase {
    * @covers ::getStepIndex
    */
   public function testGetStepIndex() {
-    $event = new TrackCheckoutStepEvent(1, $this->order);
+    $event = new AlterCheckoutStepEventData(1, $this->order);
     $this->assertIsInt($event->getStepIndex());
     $this->assertEquals(1, $event->getStepIndex());
   }
@@ -100,7 +100,7 @@ class TrackCheckoutStepEventTest extends CommerceKernelTestBase {
    * @covers ::getOrder
    */
   public function testGetOrder() {
-    $event = new TrackCheckoutStepEvent(1, $this->order);
+    $event = new AlterCheckoutStepEventData(1, $this->order);
     $this->assertInstanceOf(OrderInterface::class, $event->getOrder());
     $this->assertSame($this->order, $event->getOrder());
   }

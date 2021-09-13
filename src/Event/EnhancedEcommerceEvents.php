@@ -51,8 +51,8 @@ final class EnhancedEcommerceEvents {
    *
    * @Event
    *
-   * @see \Drupal\commerce_google_tag_manager\Event\TrackCheckoutStepEvent
+   * @see \Drupal\commerce_google_tag_manager\Event\AlterCheckoutStepEventData
    */
-  const TRACK_CHECKOUT_STEP = 'commerce_google_tag_manager.track_checkout_step';
+  const ALTER_CHECKOUT_STEP_EVENT_DATA = 'commerce_google_tag_manager.alter_checkout_step_event_data';
 
 }
