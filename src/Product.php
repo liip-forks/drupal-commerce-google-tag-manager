@@ -85,8 +85,8 @@ class Product {
       // Special cases for plural to singular conversion.
       $property = $property === 'categories' ? 'category' : $property;
 
-      // Special case of price without item prefix.
-      $property = $property !== 'price' ? 'item_' . $property : $property;
+      // Special cases without item prefix.
+      $property = !in_array($property, ['price','currency'],TRUE) ? 'item_' . $property : $property;
 
       if (is_array($value)) {
         foreach ($value as $i => $v) {
