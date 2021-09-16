@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\commerce_google_tag_manager;
 
 use Drupal\commerce\Context;
+use Drupal\commerce_google_tag_manager\Event\AlterCheckoutStepEventData;
 use Drupal\commerce_google_tag_manager\Event\AlterProductEvent;
 use Drupal\commerce_google_tag_manager\Event\AlterProductPurchasedEntityEvent;
 use Drupal\commerce_google_tag_manager\Event\EnhancedEcommerceEvents;
@@ -29,7 +30,9 @@ class EventTrackerService {
   const EVENT_PRODUCT_CLICK = 'select_item';
   const EVENT_ADD_CART = 'add_to_cart';
   const EVENT_REMOVE_CART = 'remove_from_cart';
-  const EVENT_CHECKOUT = 'begin_checkout';
+  const EVENT_BEGIN_CHECKOUT = 'begin_checkout';
+  const EVENT_ADD_SHIPPING_INFO = 'add_shipping_info';
+  const EVENT_ADD_PAYMENT_INFO = 'add_payment_info';
   const EVENT_PURCHASE = 'purchase';
 
   /**
@@ -218,17 +221,27 @@ class EventTrackerService {
    */
   public function checkoutStep($step_index, OrderInterface $order) {
     $data = [
-      'event' => self::EVENT_CHECKOUT,
+      'event' => NULL,
       'ecommerce' => [
         'items' => [
           $this->buildProductsFromOrderItems($order->getItems()),
+          ],
         ],
-      ],
-    ];
+      ];
 
-    $this->eventStorage->addEvent($data);
+    $event = new AlterCheckoutStepEventData(
+      $step_index,
+      $order,
+      $data
+    );
 
-    // Could use an action to track the step?
+    $this->eventDispatcher->dispatch(EnhancedEcommerceEvents::ALTER_CHECKOUT_STEP_EVENT_DATA, $event);
+
+    // The event is only dispatched if the event name has been added by a
+    // ALTER_CHECKOUT_STEP_EVENT_DATA event subscriber.
+    if (isset($data['event'])) {
+      $this->eventStorage->addEvent($data);
+    }
   }
 
   /**
