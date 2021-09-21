@@ -236,6 +236,7 @@ class EventTrackerService {
     );
 
     $this->eventDispatcher->dispatch(EnhancedEcommerceEvents::ALTER_CHECKOUT_STEP_EVENT_DATA, $event);
+    $data = $event->getData();
 
     // The event is only dispatched if the event name has been added by a
     // ALTER_CHECKOUT_STEP_EVENT_DATA event subscriber.
