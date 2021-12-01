@@ -223,9 +223,7 @@ class EventTrackerService {
     $data = [
       'event' => NULL,
       'ecommerce' => [
-        'items' => [
-          $this->buildProductsFromOrderItems($order->getItems()),
-          ],
+        'items' => $this->buildProductsFromOrderItems($order->getItems()),
         ],
       ];
 
