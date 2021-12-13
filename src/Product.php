@@ -90,17 +90,19 @@ class Product {
 
       if (is_array($value)) {
         foreach ($value as $i => $v) {
+          $propertyIndex = $i + 1;
           $singularProperty = rtrim($property, 's');
           if ($property === 'item_category') {
             // Skip category if the value is an empty string.
             if (empty($v)) {
               continue;
             }
-            // For category the zeroth entry has no suffix.
-            $propertyIdentifier = $i === 0 ? $singularProperty : $singularProperty . $i;
+            // For category the first item is item_category and the second
+            // is item_category2.
+            $propertyIdentifier = $propertyIndex === 1 ? $singularProperty : $singularProperty . $propertyIndex;
           }
           else {
-            $propertyIdentifier = $singularProperty . '_' . ($i + 1);
+            $propertyIdentifier = $singularProperty . '_' . $propertyIndex;
           }
           $data[$propertyIdentifier] = $v;
         }
