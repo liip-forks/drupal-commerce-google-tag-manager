@@ -253,18 +253,16 @@ class EventTrackerService {
     $data = [
       'event' => self::EVENT_PURCHASE,
       'ecommerce' => [
-        'purchase' => [
-          'transaction_id' => $order->getOrderNumber(),
-          'affiliation' => $order->getStore()->getName(),
-          // The value should be the total value (incl. tax and shipping).
-          'value' => self::formatPrice($order->getTotalPrice()->getNumber()),
-          'tax' => self::formatPrice((string) $this->calculateTax($order)),
-          'shipping' => self::formatPrice((string) $this->calculateShipping($order)),
-          'currency' => $order->getTotalPrice()->getCurrencyCode(),
-          'coupon' => $this->getCouponCode($order),
-          'items' => $this->buildProductsFromOrderItems($order->getItems()),
+        'transaction_id' => $order->getOrderNumber(),
+        'affiliation' => $order->getStore()->getName(),
+        // The value should be the total value (incl. tax and shipping).
+        'value' => self::formatPrice($order->getTotalPrice()->getNumber()),
+        'tax' => self::formatPrice((string) $this->calculateTax($order)),
+        'shipping' => self::formatPrice((string) $this->calculateShipping($order)),
+        'currency' => $order->getTotalPrice()->getCurrencyCode(),
+        'coupon' => $this->getCouponCode($order),
+        'items' => $this->buildProductsFromOrderItems($order->getItems()),
         ],
-      ],
     ];
 
     $this->eventStorage->addEvent($data);
