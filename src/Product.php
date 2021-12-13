@@ -97,7 +97,7 @@ class Product {
               continue;
             }
             // For category the zeroth entry has no suffix.
-            $propertyIdentifier = $i === 0 ? $singularProperty : $singularProperty . '_' . $i;
+            $propertyIdentifier = $i === 0 ? $singularProperty : $singularProperty . $i;
           }
           else {
             $propertyIdentifier = $singularProperty . '_' . ($i + 1);
@@ -183,6 +183,16 @@ class Product {
   public function setPrice($price): self {
     $this->price = $price;
     return $this;
+  }
+
+  /**
+   * Get the currency.
+   *
+   * @return string
+   *   Currency.
+   */
+  public function getCurrency(): string {
+    return $this->currency ?? '';
   }
 
   /**
