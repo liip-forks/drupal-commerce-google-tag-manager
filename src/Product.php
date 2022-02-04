@@ -176,14 +176,14 @@ class Product {
   /**
    * Set the price.
    *
-   * @param string $price
+   * @param string|float $price
    *   The price.
    *
    * @return \Drupal\commerce_google_tag_manager\Product
    *   The Product object.
    */
   public function setPrice($price): self {
-    $this->price = $price;
+    $this->price = (float) $price;
     return $this;
   }
 
