@@ -253,12 +253,12 @@ class EventTrackerService {
     $data = [
       'event' => self::EVENT_PURCHASE,
       'ecommerce' => [
-        'transaction_id' => $order->getOrderNumber(),
+        'transaction_id' => (int) $order->getOrderNumber(),
         'affiliation' => $order->getStore()->getName(),
         // The value should be the total value (incl. tax and shipping).
-        'value' => self::formatPrice($order->getTotalPrice()->getNumber()),
-        'tax' => self::formatPrice((string) $this->calculateTax($order)),
-        'shipping' => self::formatPrice((string) $this->calculateShipping($order)),
+        'value' => (float) self::formatPrice($order->getTotalPrice()->getNumber()),
+        'tax' => (float) self::formatPrice((string) $this->calculateTax($order)),
+        'shipping' => (float) self::formatPrice((string) $this->calculateShipping($order)),
         'currency' => $order->getTotalPrice()->getCurrencyCode(),
         'coupon' => $this->getCouponCode($order),
         'items' => $this->buildProductsFromOrderItems($order->getItems()),
@@ -288,7 +288,7 @@ class EventTrackerService {
       $product = (new Product())
         ->setName($order_item->getTitle())
         ->setId((string) $order_item->getPurchasedEntityId())
-        ->setPrice(self::formatPrice($order_item->getTotalPrice()->getNumber()))
+        ->setPrice((float) self::formatPrice($order_item->getTotalPrice()->getNumber()))
         ->setCurrency($order_item->getUnitPrice()->getCurrencyCode());
     }
 
@@ -321,7 +321,7 @@ class EventTrackerService {
     $calculated_price = $this->priceCalculator->calculate($product_variation, 1, $context)->getCalculatedPrice();
     if ($calculated_price) {
       $product
-        ->setPrice(self::formatPrice((float) $calculated_price->getNumber()))
+        ->setPrice((float) self::formatPrice((float) $calculated_price->getNumber()))
         ->setCurrency($calculated_price->getCurrencyCode());
     }
 
