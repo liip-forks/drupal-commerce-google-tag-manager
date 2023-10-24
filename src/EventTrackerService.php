@@ -233,7 +233,7 @@ class EventTrackerService {
       $data
     );
 
-    $this->eventDispatcher->dispatch(EnhancedEcommerceEvents::ALTER_CHECKOUT_STEP_EVENT_DATA, $event);
+    $this->eventDispatcher->dispatch($event, EnhancedEcommerceEvents::ALTER_CHECKOUT_STEP_EVENT_DATA);
     $data = $event->getData();
 
     // The event is only dispatched if the event name has been added by a
@@ -293,7 +293,7 @@ class EventTrackerService {
     }
 
     $event = new AlterProductPurchasedEntityEvent($product, $order_item, $purchased_entity);
-    $this->eventDispatcher->dispatch(EnhancedEcommerceEvents::ALTER_PRODUCT_PURCHASED_ENTITY, $event);
+    $this->eventDispatcher->dispatch($event, EnhancedEcommerceEvents::ALTER_PRODUCT_PURCHASED_ENTITY);
 
     return $product;
   }
@@ -326,7 +326,7 @@ class EventTrackerService {
     }
 
     $event = new AlterProductEvent($product, $product_variation);
-    $this->eventDispatcher->dispatch(EnhancedEcommerceEvents::ALTER_PRODUCT, $event);
+    $this->eventDispatcher->dispatch($event, EnhancedEcommerceEvents::ALTER_PRODUCT);
 
     return $product;
   }

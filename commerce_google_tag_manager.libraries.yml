@@ -3,6 +3,5 @@ commerce_google_tag_manager:
   js:
     js/commerce_google_tag_manager.js: {}
   dependencies:
-    - core/jquery
     - core/drupal
     - core/drupalSettings
