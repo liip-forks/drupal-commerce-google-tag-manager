@@ -21,16 +21,13 @@
 
         var dataLayer = window[dataLayerVariable];
 
-        var httpRequest = new XMLHttpRequest();
-        httpRequest.onreadystatechange = function (data) {
+        fetch(url).then((data) => {
           if (data && data.length) {
-            data.forEach(function (eventData) {
+            data.forEach(function(eventData) {
               dataLayer.push(eventData);
             });
           }
-        }
-        httpRequest.open('GET', url);
-        httpRequest.send();
+        });
       }
     };
 })(Drupal, drupalSettings);
