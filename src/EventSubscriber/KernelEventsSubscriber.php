@@ -103,7 +103,7 @@ class KernelEventsSubscriber implements EventSubscriberInterface {
     }
 
     // Bail if we are not dealing with a master request or GET method.
-    if (!$event->isMasterRequest() || !$event->getRequest()->isMethod('GET')) {
+    if (!$event->isMainRequest() || !$event->getRequest()->isMethod('GET')) {
       return FALSE;
     }
 
