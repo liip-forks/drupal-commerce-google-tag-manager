@@ -9,9 +9,9 @@ use Drupal\commerce_cart\Event\CartEvents;
 use Drupal\commerce_cart\Event\CartOrderItemRemoveEvent;
 use Drupal\commerce_google_tag_manager\EventTrackerService;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\state_machine\Event\WorkflowTransitionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
@@ -53,10 +53,9 @@ class CommerceEventsSubscriber implements EventSubscriberInterface {
     return [
       CartEvents::CART_ENTITY_ADD => 'trackCartAdd',
       CartEvents::CART_ORDER_ITEM_REMOVE => 'trackCartRemove',
-      'commerce_order.place.post_transition' => 'trackPurchase',
-       // trackProductView should run before Dynamic Page Cache, which has
-       // priority 27.
-       // @see \Drupal\dynamic_page_cache\EventSubscriber\DynamicPageCacheSubscriber.
+      // trackProductView should run before Dynamic Page Cache, which has
+      // priority 27.
+      // @see \Drupal\dynamic_page_cache\EventSubscriber\DynamicPageCacheSubscriber.
       KernelEvents::REQUEST => ['trackProductView', 28],
     ];
   }
@@ -74,10 +73,10 @@ class CommerceEventsSubscriber implements EventSubscriberInterface {
   /**
    * Track the "productView" event.
    *
-   * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+   * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
    *   The event to view the product.
    */
-  public function trackProductView(GetResponseEvent $event) {
+  public function trackProductView(RequestEvent $event) {
     $product = $this->routeMatch->getParameter('commerce_product');
     if ($event->getRequest()->getMethod() === 'GET' && !empty($product) && $this->routeMatch->getRouteName() === 'entity.commerce_product.canonical') {
       $default_variation = $product->getDefaultVariation();
@@ -100,18 +99,6 @@ class CommerceEventsSubscriber implements EventSubscriberInterface {
    */
   public function trackCartRemove(CartOrderItemRemoveEvent $event) {
     $this->eventTracker->removeFromCart($event->getOrderItem(), 1);
-  }
-
-  /**
-   * Track the "purchase" event.
-   *
-   * @param \Drupal\state_machine\Event\WorkflowTransitionEvent $event
-   *   The workflow transition event.
-   */
-  public function trackPurchase(WorkflowTransitionEvent $event) {
-    /** @var \Drupal\commerce_order\Entity\OrderInterface $order */
-    $order = $event->getEntity();
-    $this->eventTracker->purchase($order);
   }
 
 }

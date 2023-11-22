@@ -3,30 +3,31 @@
  * Defines Javascript behaviors for the commerce_google_tag_manager module.
  */
 
-(function ($, window, drupalSettings) {
-    'use strict';
+(function (Drupal, drupalSettings) {
 
-    $(function() {
+    Drupal.behaviors.datalayer_push = {
+      attach: function (context, settings) {
         if (!drupalSettings) {
-            return;
+          return;
         }
 
-        var settings = drupalSettings.commerceGoogleTagManager || {};
-        var url = settings.eventsUrl;
-        var dataLayerVariable = settings.dataLayerVariable;
+        var cgtmSettings = drupalSettings.commerceGoogleTagManager || {};
+        var url = cgtmSettings.eventsUrl;
+        var dataLayerVariable = cgtmSettings.dataLayerVariable;
 
         if (!dataLayerVariable || !window.hasOwnProperty(dataLayerVariable)) {
-            return;
+          return;
         }
 
         var dataLayer = window[dataLayerVariable];
 
-        $.get(url, function(data) {
-            if (data && data.length) {
-                data.forEach(function(eventData) {
-                    dataLayer.push(eventData);
-                });
-            }
+        fetch(url).then((data) => {
+          if (data && data.length) {
+            data.forEach(function(eventData) {
+              dataLayer.push(eventData);
+            });
+          }
         });
-    });
-})(jQuery, window, drupalSettings);
+      }
+    };
+})(Drupal, drupalSettings);

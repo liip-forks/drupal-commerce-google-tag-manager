@@ -6,7 +6,7 @@ namespace Drupal\commerce_google_tag_manager\Event;
 
 use Drupal\commerce_google_tag_manager\Product;
 use Drupal\commerce_product\Entity\ProductVariationInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Drupal\Component\EventDispatcher\Event;
 
 /**
  * Event to alter the Enhanced Ecommerce product.
@@ -38,7 +38,7 @@ class AlterProductEvent extends Event {
    *   The Commerce production variation.
    */
   public function __construct(Product $product,
-                              ProductVariationInterface $product_variation) {
+    ProductVariationInterface $product_variation) {
     $this->product = $product;
     $this->productVariation = $product_variation;
   }
